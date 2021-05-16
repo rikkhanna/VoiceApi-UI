@@ -3,16 +3,25 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
+import { AudioComponent } from './audio/audio.component';
+import { WavComponent } from './wav/wav.component';
+import { SpeakerComponent } from './speaker/speaker.component';
+import { SharedService } from './shared.service';
+import { HttpClientModule } from '@angular/common/http';
+import {AudioRecorderService} from './audio-recorder.service';
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AudioComponent,
+    WavComponent,
+    SpeakerComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [SharedService, AudioRecorderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
