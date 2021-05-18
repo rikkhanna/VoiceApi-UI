@@ -1,3 +1,9 @@
 <div>
-  <button class="convert-button">Convert Audio</button>
+  <input
+    type="text"
+    class="form-control"
+    [(ngModel)]="audioFile"
+    placeholder="paste audio file path"
+  />
+  <button class="convert-button" (click)="convert()">Convert Audio</button>
 </div>

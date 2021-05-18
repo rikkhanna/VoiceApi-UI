@@ -9,6 +9,7 @@ import { SpeakerComponent } from './speaker/speaker.component';
 import { SharedService } from './shared.service';
 import { HttpClientModule } from '@angular/common/http';
 import {AudioRecorderService} from './audio-recorder.service';
+import {FormsModule,ReactiveFormsModule} from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +20,9 @@ import {AudioRecorderService} from './audio-recorder.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [SharedService, AudioRecorderService],
   bootstrap: [AppComponent]
