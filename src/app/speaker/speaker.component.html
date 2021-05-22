@@ -1,3 +1,64 @@
-<div>
-  <button class="speaker-button">Verify Speaker</button>
+<div class="fa-4x">
+  <button
+    class="btn btn-primary btn-dark"
+    [disabled]="enrollLoading"
+    (click)="enrollSpeaker()"
+  >
+    <i
+      class="fa"
+      [ngClass]="{
+        'fa-spin fa-spinner': enrollLoading,
+        'fa-check': !enrollLoading
+      }"
+    ></i>
+    {{ enrollbtn }}
+  </button>
 </div>
+
+<div class="container container-fluid">{{ enrollResponse }}</div>
+
+<div class="fa-4x" *ngFor="let res of response">
+  <input
+    *ngIf="res.path != ''"
+    type="text"
+    class="form-control"
+    [(ngModel)]="res.path"
+    [placeholder]="res.path"
+  />
+</div>
+
+<div class="fa-4x">
+  <button
+    class="btn btn-primary speaker-button"
+    [disabled]="verifyLoading"
+    (click)="verifySpeaker()"
+  >
+    <i
+      class="fa"
+      [ngClass]="{
+        'fa-spin fa-spinner': verifyLoading,
+        'fa-check': !verifyLoading
+      }"
+    ></i>
+    {{ verifybtn }}
+  </button>
+</div>
+<div class="container container-fluid">{{ verifyResponse }}</div>
+
+<div class="fa-4x">
+  <button
+    class="btn btn-primary btn-dark"
+    [disabled]="deleteLoading"
+    (click)="deleteSpeakers()"
+  >
+    <i
+      class="fa"
+      [ngClass]="{
+        'fa-spin fa-spinner': deleteLoading,
+        'fa-check': !deleteLoading
+      }"
+    ></i>
+    {{ deletebtn }}
+  </button>
+</div>
+<div class="container container-fluid">{{ deleteResponse }}</div>

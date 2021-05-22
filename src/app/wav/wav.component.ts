@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter  } from '@angular/core';
 import {SharedService} from 'src/app/shared.service';
 
 @Component({
@@ -10,16 +10,28 @@ import {SharedService} from 'src/app/shared.service';
 
 export class WavComponent implements OnInit {
 
+  button = 'Convert Audio';
+  isLoading = false;
+  placeholder = "C://Users//Rishabh//Downloads//";
+
+
   constructor(private service:SharedService) { }
   
-  audioFile: string ="";
+  response = ""
+
+  audioFile: string ="C://Users//Rishabh//Downloads//";
   job: any;
   output: any;
   job2: any;
+  loading: boolean = true;
   convert(){
+
+    this.isLoading = true;
+    this.button = 'Processing';
+
     // var val = {filepath: this.audioFile, folderpath: "C://Users//Rishabh//Desktop//VoiceApi-UI//audios//"};
    
-    this.service.createServer({}).subscribe(res=>{
+    this.service.createServer().subscribe(res=>{
       console.log(res);
       // Object.assign(val, {result: res});
       this.service.uploadAudio({filepath: this.audioFile, server: res.server, id: res.id}).subscribe(res => {
@@ -61,7 +73,10 @@ export class WavComponent implements OnInit {
       console.log(this.output)
       this.service.downloadConvertedFile({Url: this.output, filename: 'audio_' + new Date().getTime() + '.wav', filepath: 'C://Users//Rishabh//Desktop//VoiceApi-UI//audios//'}).subscribe(res => {
         console.log(res);
-        
+        this.isLoading = false;
+        this.button = 'Convert Audio';
+        this.response = `Downloaded at ${res.path}`;
+        this.service.setData(res)
       })
      }, 18000);
   }

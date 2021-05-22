@@ -3,7 +3,23 @@
     type="text"
     class="form-control"
     [(ngModel)]="audioFile"
-    placeholder="paste audio file path"
+    [placeholder]="placeholder"
   />
-  <button class="convert-button" (click)="convert()">Convert Audio</button>
+  <!-- <button
+    class="btn btn-accent btn-block btn-flat b-r-10 convert-button"
+    style="background: #ff473a"
+    (click)="convert()"
+  >
+    Convert Audio
+    <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+  </button> -->
+  <button class="btn btn-primary" [disabled]="isLoading" (click)="convert()">
+    <i
+      class="fa"
+      [ngClass]="{ 'fa-spin fa-spinner': isLoading, 'fa-check': !isLoading }"
+    ></i>
+    {{ button }}
+  </button>
+
+  <div class="container container-fluid">{{ response }}</div>
 </div>

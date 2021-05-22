@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,22 +10,17 @@ export class SharedService {
   readonly convertControllerUrl = 'values/';
   readonly speakerControllerUrl = 'speakerverification/';
 
+  private apiData = new BehaviorSubject<any>({path:''});
+  public apiData$ = this.apiData.asObservable();
+
   constructor(private http: HttpClient) { }
 
-  // convert Audio to WAV -- Methods
+  setData(data:any) { 
+    this.apiData.next(data)
+  }
 
-  
-  createServer(val:any){
-    
+  createServer(){
     return this.http.post<any>(this.ApiUrl + this.convertControllerUrl + 'server', {});
-    // let payload = {'server':server, 'filepath':val.filepath};
-    // let jobId =  this.http.post<any>(this.ApiUrl+ this.convertControllerUrl + 'upload', payload);
-    // let uploadedFileUrl = this.http.get<any>(this.ApiUrl+this.convertControllerUrl + 'getinfo/' + jobId);
-    // let payload2 = {'uploadedFileUrl': uploadedFileUrl}
-    // let convertedFileId = this.http.post<any>(this.ApiUrl+this.convertControllerUrl + 'convert', payload2);
-    // let downloadFileUrl = this.http.get<any>(this.ApiUrl+this.convertControllerUrl + 'getinfo'+ convertedFileId);
-    // let payload3 = {'Url':downloadFileUrl,'filename':val.filename,'filepath': val.folderpath};
-    // return this.http.post<any>(this.ApiUrl+this.convertControllerUrl +'download', payload3);
   }
   uploadAudio(val:any){
     let payload = {'server':val.server+'/upload-file/'+val.id, 'filepath':val.filepath};
@@ -50,5 +45,23 @@ export class SharedService {
   }
 
   
+  enrollSpeaker(val:any){
+    // console.log(val);
+    let payload = {'enrollFile1': val[2].path,'enrollFile2': val[3].path,'enrollFile3': val[4].path}
+    
+    return this.http.post<any>(this.ApiUrl+this.speakerControllerUrl+'enroll', payload)
+    // console.log(payload)
+  }
   
+  verifySpeaker(val:any){
+    // console.log(val);
+    let payload = {'file': val[5].path}
+    
+    return this.http.post<any>(this.ApiUrl+this.speakerControllerUrl+'verify', payload)
+    // console.log(payload)
+  }
+
+  deleteSpeaker():Observable<any>{
+    return this.http.delete(this.ApiUrl+this.speakerControllerUrl+'delete')
+  }
 }
